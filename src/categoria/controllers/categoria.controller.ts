@@ -17,12 +17,24 @@ export class CategoriaController {
   findById(@Param('id', ParseIntPipe) id: number): Promise<Categoria> {
     return this.categoriaService.findById(id);
   }
-  
-  @Get(':id/produtos')
-listarProdutos(@Param('id', ParseIntPipe) id: number) {
-  return this.categoriaService.listarProdutos(id);
-}
 
+  @Get('/nome/:nome')
+  @HttpCode(HttpStatus.OK)
+  findByNome(@Param('nome') nome: string): Promise<Categoria[]> {
+    return this.categoriaService.findByNome(nome);
+  }
+  
+  @Get('/:id/produtos')
+  @HttpCode(HttpStatus.OK)
+  listarProdutos(@Param('id', ParseIntPipe) id: number) {
+    return this.categoriaService.listarProdutos(id);
+  }
+
+  @Get('/:id/quantidade-produtos')
+  @HttpCode(HttpStatus.OK)
+  contarProdutos(@Param('id', ParseIntPipe) id: number) {
+    return this.categoriaService.contarProdutos(id);
+  }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -41,20 +53,4 @@ listarProdutos(@Param('id', ParseIntPipe) id: number) {
   delete(@Param('id', ParseIntPipe) id: number){
     return this.categoriaService.delete(id);
   }
-
-    // Adicionar um produto à categoria
-    @Patch(':id/adicionar-produto')
-    adicionarProduto(
-      @Param('id', ParseIntPipe) id: number,
-      @Body('produtoId') produtoId: number,
-    ) {
-      return this.categoriaService.adicionarProduto(id, produtoId);
-    }
-  
-     // Contar produtos de uma categoria
-  @Get(':id/quantidade-produtos')
-  contarProdutos(@Param('id', ParseIntPipe) id: number) {
-    return this.categoriaService.contarProdutos(id);
-  }
 }
-
